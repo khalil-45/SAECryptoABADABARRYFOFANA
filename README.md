@@ -40,11 +40,22 @@
 protocoles AES et RSA. La troisième est l'analyse des messages envoyés par Alice et Bob. Enfin, la dernière et quatrième partie, concerne la réponse à plusieurs questions afin d'aller plus loin dans le travail.
 
 ## Première partie
-RSA est un protocole de cryptographie asymétrique qui est considéré comme sûr lorsqu'il est utilisé correctement. Cela signifie que si Alice et Bob utilisent des clés de taille suffisante et suivent les bonnes pratiques (par exemple, ne pas réutiliser les clés, garder les clés privées en sécurité), alors Eve ne devrait pas être en mesure de déchiffrer les messages chiffrés avec RSA.
 
-Cependant, il est important de noter que la sécurité de RSA repose sur la difficulté de la factorisation des grands nombres premiers. Si Eve avait accès à une puissance de calcul suffisante (par exemple, un ordinateur quantique), elle pourrait théoriquement factoriser les clés RSA et déchiffrer les messages. Mais pour l'instant, avec la technologie actuelle, cela reste largement hors de portée.
+- En supposant que RSA soit utilisé correctement, Eve peut-elle espérer en venir à bout ? En vous appuyant sur
+votre cours, justifiez votre réponse :  
 
-En conclusion, si RSA est utilisé correctement, Eve ne devrait pas être en mesure de déchiffrer les communications entre Alice et Bob. Cependant, la sécurité en informatique est un domaine en constante évolution et il est important de rester informé des dernières avancées et menaces.
+    Eve peut espérer en venir à bout si jamais la clé privée est relativement petite car RSA est un algorithme de chiffrement asymétrique. Cependant, si la clé privée générée aléatoirement est très grande, cela réduit considérablement (voir met à nulle) ses chances d'en venir à bout dû au fait du trop grand nombre d'essai à faire.
+
+- En quoi l’algorithme SDES est-il peu sécurisé? Vous justifierez votre réponse en analysant le nombre d’essai
+nécessaire à une méthode “force brute” pour retrouver la clé :  
+
+    L'algorithme SDES est peu sécurisé car il est possible de retrouver la clé en utilisant une méthode de force brute. En effet, la clé est composée de 10 bits. Il est donc possible de tester toutes les combinaisons possibles. Il y a donc 2^10 combinaisons possibles. Il faut donc 1024 essais pour retrouver la clé.
+
+- Est-ce que double SDES est-il vraiment plus sur? Quelle(s) information(s) supplémentaire(s) Eve doit-elle
+récupérer afin de pouvoir espérer venir à bout du double DES plus rapidement qu’avec un algorithme brutal?
+Décrivez cette méthode astucieuse et précisez le nombre d’essai pour trouver la clé : 
+
+    Double SDES est plus sûr que SDES car il est impossible de retrouver la clé en utilisant une méthode de force brute. En effet, la clé est composée de 20 bits. Il est donc impossible de tester toutes les combinaisons possibles. Il faut donc 2^20 essais pour retrouver la clé. Il faut donc 1048576 essais pour retrouver la clé.
 
 ## Deuxième partie
 
