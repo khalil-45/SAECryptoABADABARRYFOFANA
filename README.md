@@ -23,7 +23,7 @@
   <a href="#license">License</a>
 </p>
 
-![Alt text](images/4k_crypto.jpg)
+![Alt text](images/hacker.gif)
 ** **
 ## Le Projet
 
