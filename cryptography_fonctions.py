@@ -8,7 +8,6 @@ def encrypt_text(text : str, key1 : int):
     Args:
         text: Le texte à chiffrer.
         key1: La première clé de chiffrement.
-        key2: La deuxième clé de chiffrement.
 
     Returns:
         Le texte chiffré.
@@ -75,7 +74,7 @@ def cassage_brutal(message_clair : str, message_chiffre : str):
 
     # Tester toutes les possibilités
 
-    for key1 in range(1,2025):
+    for key1 in range(1,1025):
         # Chiffrer le message clair avec la clé actuelle
 
         message_chiffre_test = encrypt_text(message_clair, key1)
@@ -94,38 +93,23 @@ def cassage_brutal(message_clair : str, message_chiffre : str):
     else:
         return None
     
-    
 
 
+# tests des fonctions : 
 
-
-
-
-
-
-
-
-
-
-
-
-
-   
 def read_file(file_path):
     with open(file_path, 'r') as file:
         lines = file.readlines()
         text = ' '.join(lines)
     return text
 
-file_path = 'arsene_lupin_extrait.txt'
 
-# Example usage
-message_clair = read_file(file_path)
-message_chiffre = encrypt_text(message_clair, 990)
-print(message_chiffre)
-clés = cassage_brutal(message_clair, message_chiffre)
+file = 'arsene_lupin_extrait.txt'
 
-print(clés)
+message_clair = read_file(file)
+encryptage = encrypt_text(message_clair, 990)
+message = cassage_brutal(message_clair, encryptage) 
+print(message)
 
 
 
