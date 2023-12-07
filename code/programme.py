@@ -110,26 +110,26 @@ def bits_to_text(bits):
         chars.append(chr(int(byte, 2)))
     return ''.join(chars)
 
-def encrypt_text(text, key1, key2):
-    bits = text_to_bits(text)
-    encrypted_bits = ''
-    for i in range(0, len(bits), 8):
-        block = int(bits[i:i+8], 2)
-        encrypted_block = encrypt(key1, block)  # First encryption
-        encrypted_block = encrypt(key2, encrypted_block)  # Second encryption
-        encrypted_bits += format(encrypted_block, '08b')
-    return bits_to_text(encrypted_bits)
-
 def read_file(file_path):
     with open(file_path, 'r') as file:
         lines = file.readlines()
         text = ' '.join(lines)
     return text
 
+def double_encrypt(key1, key2, text):
+    text_bits = text_to_bits(text)
+    encrypted_bits = ''
+    for i in range(0, len(text_bits), 8):
+        block = int(text_bits[i:i+8], 2)
+        encrypted_block = encrypt(key1, block)
+        encrypted_block = encrypt(key2, encrypted_block)
+        encrypted_bits += format(encrypted_block, '08b')
+    return bits_to_text(encrypted_bits)
+
 def cassage_brutal(message_clair, message_chiffre):
     message_chiffre_bits = text_to_bits(message_chiffre)
-    for i in range(1024):
-        for j in range(1024):
+    for i in range(256):
+        for j in range(256):
             decrypted_message = ''
             for k in range(0, len(message_chiffre_bits), 8):
                 block = int(message_chiffre_bits[k:k+8], 2)
@@ -137,15 +137,12 @@ def cassage_brutal(message_clair, message_chiffre):
                 decrypted_message += format(decrypted_block, '08b')
             if bits_to_text(decrypted_message) == message_clair:
                 return (i, j)
-        print("test" + str(i))
+            print(i, j)
     return None
 file_path = 'arsene_lupin_extrait.txt'
 
 message_clair = read_file(file_path)
-#message_chiffre = encrypt_text("Jean", 450, 600)
-#message_dechiffre = cassage_brutal("Jean", message_chiffre)
-#print(message_chiffre)
-#print(message_dechiffre)
-
-print(encrypt_text("Jean", 450, 600))
-print(encrypt_text("Jean", 394, 528))
+message_chiffre = double_encrypt(10, 100, message_clair)
+message_dechiffre = cassage_brutal(message_clair, message_chiffre)
+print(message_chiffre)
+print(message_dechiffre)
