@@ -208,6 +208,7 @@ def cassage_astucieux(message_clair, message_chiffre):
     
 
 def main():
+    
     fic = input("Entrez le nom du fichier à chiffrer ou bien du texte : ")
     mess_clair = read_file(fic)
     mess_chiffre = double_encrypt(1, 30, mess_clair)
