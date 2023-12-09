@@ -11,6 +11,7 @@
 #===========================================================
 from sys import exit
 from time import time
+import timeit
  
 KeyLength = 10
 SubKeyLength = 8
@@ -127,6 +128,15 @@ def double_encrypt(key1, key2, text):
     return bits_to_text(encrypted_bits)
 
 def cassage_brutal(message_clair, message_chiffre):
+    """Tente de retrouver les clés utilisées pour chiffrer le message en testant toutes les possibilités 
+
+    Args:
+        message_clair (str) : message clair
+        message_chiffre (str) : message chiffré
+
+    Returns:
+        tuple : clés utilisées pour chiffrer le message ou None si aucune clé n'a été trouvée
+    """    
     message_chiffre_bits = text_to_bits(message_chiffre)
     for i in range(256):
         for j in range(256):
@@ -137,12 +147,87 @@ def cassage_brutal(message_clair, message_chiffre):
                 decrypted_message += format(decrypted_block, '08b')
             if bits_to_text(decrypted_message) == message_clair:
                 return (i, j)
-            print(i, j)
     return None
-file_path = 'arsene_lupin_extrait.txt'
 
-message_clair = read_file(file_path)
-message_chiffre = double_encrypt(10, 100, message_clair)
-message_dechiffre = cassage_brutal(message_clair, message_chiffre)
-print(message_chiffre)
-print(message_dechiffre)
+
+
+def cassage_astucieux(message_clair, message_chiffre):
+    """Permet de tester moins de possibilité de clés et ainsi réduire le temps d’exécution du cassage.
+
+    Args:
+        message_clair (str) : message clair
+        message_chiffre (str) : message chiffré
+
+    Returns:
+        tuple : clés utilisées pour chiffrer le message
+    """
+
+    message_chiffre_bits = text_to_bits(message_chiffre)
+    l= 0
+    r = 255
+    
+    for i in [ord('e'), ord('a'), ord('s'), ord('i'), ord('t')]:
+        for j in [ord('e'), ord('a'), ord('s'), ord('i'), ord('t')]:
+            decrypted_message = ''
+            for k in range(0, len(message_chiffre_bits), 8):
+                block = int(message_chiffre_bits[k:k+8], 2)
+                decrypted_block = decrypt(i, decrypt(j, block))
+                decrypted_message += format(decrypted_block, '08b')
+            if bits_to_text(decrypted_message) == message_clair:
+                return (i, j)
+            
+    if l == r:
+        return None
+    elif l + 1 == r:
+        return None
+    else:
+        mid = (l + r) // 2
+    
+    for i in range(l, mid):
+        for j in range(l, mid):
+            decrypted_message = ''
+            for k in range(0, len(message_chiffre_bits), 8):
+                block = int(message_chiffre_bits[k:k+8], 2)
+                decrypted_block = decrypt(i, decrypt(j, block))
+                decrypted_message += format(decrypted_block, '08b')
+            if bits_to_text(decrypted_message) == message_clair:
+                return (i, j)
+    return None
+
+          
+                
+        
+    
+
+    
+
+
+       
+    
+    
+    
+
+def main():
+    fic = input("Entrez le nom du fichier à chiffrer ou bien du texte : ")
+    mess_clair = read_file(fic)
+    mess_chiffre = double_encrypt(1, 30, mess_clair)
+    fonc = input("Entrez le nom de la fonction de cassage à utiliser : ")
+    if fonc == "cassage_brutal":
+        print("Les clés utilisées sont : ", cassage_brutal(mess_clair, mess_chiffre))
+        print("temps d'execution : ", timeit.timeit(lambda: cassage_brutal(mess_clair, mess_chiffre), number=1))
+    elif fonc == "cassage_astucieux":
+        print("Les clés utilisées sont : ", cassage_astucieux(mess_clair, mess_chiffre))
+        print("temps d'execution : ", timeit.timeit(lambda: cassage_astucieux(mess_clair, mess_chiffre), number=1))
+        
+    else:
+        print("Fonction de cassage inconnue") 
+        
+        
+if __name__ == "__main__":
+    main()           
+        
+        
+    
+    
+    
+
