@@ -14,6 +14,7 @@ from time import time
 import timeit
 import random
 import threading
+import concurrent.futures
  
 KeyLength = 10
 SubKeyLength = 8
@@ -138,6 +139,7 @@ def read_file(file_path):
         with open(file_path, 'r') as file:
             lines = file.readlines()
             text = ' '.join(lines)
+        print("Le fichier à été lu avec succès\n")
         return text
 
     except:
@@ -188,7 +190,7 @@ def cassage_astucieux(message_clair, message_chiffre):
         tuple : clés utilisées pour chiffrer le message
     """
 
-
+    debut = time()
     dico_decrypte = {}
     dico_crypte = {}
     liste = []
@@ -201,23 +203,20 @@ def cassage_astucieux(message_clair, message_chiffre):
         message_chiffre_decrypte = decrypt_text(i, message_chiffre)
         
         if message_clair_crypte in dico_decrypte and dico_decrypte[message_clair_crypte] != i:
+            print("\ntemps d'execution : ", time() - debut)
             return (i,dico_decrypte[message_clair_crypte])
         else:
             dico_decrypte[message_chiffre_decrypte] = i
         
         if message_chiffre_decrypte in dico_crypte and dico_crypte[message_chiffre_decrypte] != i:
+            print("\ntemps d'execution : ", time() - debut)
             return (dico_crypte[message_chiffre_decrypte], i)
         else:
             dico_crypte[message_clair_crypte] = i
-        
-            
-        
-
-        
+       
         
     
     
-
 
 
           
@@ -248,7 +247,6 @@ def cassage_astucieux(message_clair, message_chiffre):
 
 def worker(func, message_clair, message_chiffre):
     print("\nLes clés utilisées sont : ", func(message_clair, message_chiffre), "\n")
-    print("temps d'execution : ", timeit.timeit(lambda: func(message_clair, message_chiffre), number=1))
 
 def main():
     while True:
@@ -272,7 +270,8 @@ def main():
             print("\nSans les threads")
             
             print("\nLes clés utilisées sont : ", globals()[fonc](mess_clair, mess_chiffre), "\n")
-            print("temps d'execution : ", timeit.timeit(lambda: globals()[fonc](mess_clair, mess_chiffre), number=1))
+            
+
             
         else:
             print("\nFonction de cassage inconnue\n")
