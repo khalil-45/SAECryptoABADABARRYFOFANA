@@ -54,7 +54,42 @@ Dans une attaque de rencontre au milieu, l'attaquant utilise toutes les clés po
 Le nombre d’essais pour trouver la clé dans une attaque de rencontre au milieu est de 2^56, ce qui est beaucoup moins que les 2^112 essais nécessaires pour une attaque par force brute sur une clé de 112 bits. C’est pourquoi le Double DES n’offre pas un niveau de sécurité beaucoup plus élevé que le DES simple, malgré l’utilisation d’une clé deux fois plus longue.
 
 ## Deuxième partie
+1. Oui, c'est un problème. L'augmentation de la taille de la clé de l'algorithme de chiffrement à 256 bits rend la méthode de force brute pratiquement impossible. 
+La force brute consiste à essayer toutes les combinaisons possibles de clés jusqu'à ce que la bonne soit trouvée. Avec une clé de 256 bits, il y a 2^256 combinaisons possibles. C'est un nombre extrêmement grand qui dépasse largement la capacité de calcul actuelle. Même avec les ordinateurs les plus puissants, cela prendrait des milliards d'années pour essayer toutes les combinaisons.
+De plus, l'AES (Advanced Encryption Standard) est un algorithme de chiffrement plus complexe et plus sûr que le SDES. Il est largement utilisé dans le monde entier pour protéger les informations sensibles. Il est conçu pour résister à toutes les attaques connues lorsqu'il est correctement mis en œuvre.
+Donc, oui, le passage à l'AES avec des clés de 256 bits est un problème pour Eve si elle veut casser le chiffrement par force brute.
 
+2. 
+```python
+import time
+from Crypto.Cipher import AES
+from Crypto.Random import get_random_bytes
+
+# Double SDES
+key1 = get_random_bytes(8)
+key2 = get_random_bytes(8)
+message = "Your message here"
+
+start = time.time()
+encrypted_message = double_encrypt(key1, key2, message)
+decrypted_message = double_decrypt(key1, key2, encrypted_message)
+end = time.time()
+
+print(f"Double SDES took {end - start} seconds.")
+
+# AES
+key = get_random_bytes(32)
+cipher = AES.new(key, AES.MODE_EAX)
+message = b'Your message here'
+
+start = time.time()
+ciphertext, tag = cipher.encrypt_and_digest(message)
+cipher = AES.new(key, AES.MODE_EAX, nonce=cipher.nonce)
+decrypted_message = cipher.decrypt_and_verify(ciphertext, tag)
+end = time.time()
+
+print(f"AES took {end - start} seconds.")
+```
 ## Troisième partie
 
 ## Quatrième partie
