@@ -12,6 +12,8 @@
 from sys import exit
 from time import time
 import timeit
+import random
+import threading
  
 KeyLength = 10
 SubKeyLength = 8
@@ -101,6 +103,25 @@ def decrypt(key, ciphertext):
     data = fk(keyGen(key)[1], ip(ciphertext))
     return fp(fk(keyGen(key)[0], swapNibbles(data)))  
 
+
+def encrypt_text(key, text):
+    text_bits = text_to_bits(text)
+    encrypted_bits = ''
+    for i in range(0, len(text_bits), 8):
+        block = int(text_bits[i:i+8], 2)
+        encrypted_block = encrypt(key, block)
+        encrypted_bits += format(encrypted_block, '08b')
+    return bits_to_text(encrypted_bits)
+
+def decrypt_text(key, encrypted_text):
+    encrypted_bits = text_to_bits(encrypted_text)
+    decrypted_bits = ''
+    for i in range(0, len(encrypted_bits), 8):
+        block = int(encrypted_bits[i:i+8], 2)
+        decrypted_block = decrypt(key, block)
+        decrypted_bits += format(decrypted_block, '08b')
+    return bits_to_text(decrypted_bits)
+
 def text_to_bits(text):
     return ''.join(format(ord(i), '08b') for i in text)
 
@@ -112,10 +133,15 @@ def bits_to_text(bits):
     return ''.join(chars)
 
 def read_file(file_path):
-    with open(file_path, 'r') as file:
-        lines = file.readlines()
-        text = ' '.join(lines)
-    return text
+    try:
+        
+        with open(file_path, 'r') as file:
+            lines = file.readlines()
+            text = ' '.join(lines)
+        return text
+
+    except:
+        return file_path
 
 def double_encrypt(key1, key2, text):
     text_bits = text_to_bits(text)
@@ -162,44 +188,57 @@ def cassage_astucieux(message_clair, message_chiffre):
         tuple : clés utilisées pour chiffrer le message
     """
 
-    message_chiffre_bits = text_to_bits(message_chiffre)
-    l= 0
-    r = 255
-    
-    for i in [ord('e'), ord('a'), ord('s'), ord('i'), ord('t')]:
-        for j in [ord('e'), ord('a'), ord('s'), ord('i'), ord('t')]:
-            decrypted_message = ''
-            for k in range(0, len(message_chiffre_bits), 8):
-                block = int(message_chiffre_bits[k:k+8], 2)
-                decrypted_block = decrypt(i, decrypt(j, block))
-                decrypted_message += format(decrypted_block, '08b')
-            if bits_to_text(decrypted_message) == message_clair:
-                return (i, j)
+
+    dico_decrypte = {}
+    dico_crypte = {}
+    liste = []
+    #Nous allons utilisé une seule boucle for pour tester les 256 possibilités de clés
+    # Nous allons tout d'abord crypter le message clair avec la clé i et le mettre dans un dictionnaire
+    # Nous allons ensuite decrypter le message chiffré avec la clé i et le mettre dans un dictionnaire
+    # Si les deux valeurs sont identiques alors nous avons trouvé les clés utilisées pour chiffrer le message
+    for i in range(1,256):
+        message_clair_crypte = encrypt_text(i, message_clair)
+        message_chiffre_decrypte = decrypt_text(i, message_chiffre)
+        
+        if message_clair_crypte in dico_decrypte and dico_decrypte[message_clair_crypte] != i:
+            return (i,dico_decrypte[message_clair_crypte])
+        else:
+            dico_decrypte[message_chiffre_decrypte] = i
+        
+        if message_chiffre_decrypte in dico_crypte and dico_crypte[message_chiffre_decrypte] != i:
+            return (dico_crypte[message_chiffre_decrypte], i)
+        else:
+            dico_crypte[message_clair_crypte] = i
+        
             
-    if l == r:
-        return None
-    elif l + 1 == r:
-        return None
-    else:
-        mid = (l + r) // 2
+        
+
+        
+        
     
-    for i in range(l, mid):
-        for j in range(l, mid):
-            decrypted_message = ''
-            for k in range(0, len(message_chiffre_bits), 8):
-                block = int(message_chiffre_bits[k:k+8], 2)
-                decrypted_block = decrypt(i, decrypt(j, block))
-                decrypted_message += format(decrypted_block, '08b')
-            if bits_to_text(decrypted_message) == message_clair:
-                return (i, j)
-    return None
+    
+
+
 
           
                 
         
     
+#test = encrypt_text(71,"test")
 
-    
+#test2 = encrypt_text(5,test)
+
+#print(test)
+
+#print(test2)
+
+#print(decrypt_text(5,test2))
+
+#print(double_encrypt(71, 5, "test"))
+
+#print(cassage_brutal("test",double_encrypt(71, 5, "test")))
+
+#print(cassage_astucieux("test",double_encrypt(71, 5, "test")))
 
 
        
@@ -207,25 +246,43 @@ def cassage_astucieux(message_clair, message_chiffre):
     
     
 
+def worker(func, message_clair, message_chiffre):
+    print("\nLes clés utilisées sont : ", func(message_clair, message_chiffre), "\n")
+    print("temps d'execution : ", timeit.timeit(lambda: func(message_clair, message_chiffre), number=1))
+
 def main():
-    
-    fic = input("Entrez le nom du fichier à chiffrer ou bien du texte : ")
-    mess_clair = read_file(fic)
-    mess_chiffre = double_encrypt(1, 30, mess_clair)
-    fonc = input("Entrez le nom de la fonction de cassage à utiliser : ")
-    if fonc == "cassage_brutal":
-        print("Les clés utilisées sont : ", cassage_brutal(mess_clair, mess_chiffre))
-        print("temps d'execution : ", timeit.timeit(lambda: cassage_brutal(mess_clair, mess_chiffre), number=1))
-    elif fonc == "cassage_astucieux":
-        print("Les clés utilisées sont : ", cassage_astucieux(mess_clair, mess_chiffre))
-        print("temps d'execution : ", timeit.timeit(lambda: cassage_astucieux(mess_clair, mess_chiffre), number=1))
+    while True:
+        fic = input("\nEntrez le nom du fichier à chiffrer ou bien du texte : ")
+        mess_clair = read_file(fic)
+        key1 = random.randint(1, 256)
+        key2 = random.randint(1, 256)
+        print("Les clés aléatoires utilisées sont : ", key1, key2, "\n")
+        mess_chiffre = double_encrypt(key1, key2, mess_clair)
+        fonc = input("\nEntrez le nom de la fonction de cassage à utiliser : {cassage_brutal / cassage_astucieux}  : ")
         
-    else:
-        print("Fonction de cassage inconnue") 
+        if fonc in ["cassage_brutal", "cassage_astucieux"]:
+            
+            print("\nAvec les threads")
+            
+            thread = threading.Thread(target=worker, args=(globals()[fonc], mess_clair, mess_chiffre))
+            thread.start()
+            thread.join()
+            
+            # sans les threads
+            print("\nSans les threads")
+            
+            print("\nLes clés utilisées sont : ", globals()[fonc](mess_clair, mess_chiffre), "\n")
+            print("temps d'execution : ", timeit.timeit(lambda: globals()[fonc](mess_clair, mess_chiffre), number=1))
+            
+        else:
+            print("\nFonction de cassage inconnue\n")
         
-        
+      
+
+
 if __name__ == "__main__":
-    main()           
+    main()
+               
         
         
     
