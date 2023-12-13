@@ -54,6 +54,71 @@ Dans une attaque de rencontre au milieu, l'attaquant utilise toutes les clés po
 Le nombre d’essais pour trouver la clé dans une attaque de rencontre au milieu est de 2^56, ce qui est beaucoup moins que les 2^112 essais nécessaires pour une attaque par force brute sur une clé de 112 bits. C’est pourquoi le Double DES n’offre pas un niveau de sécurité beaucoup plus élevé que le DES simple, malgré l’utilisation d’une clé deux fois plus longue.
 
 ## Deuxième partie
+1. L'utilisation de clés AES de 256 bits est généralement considérée comme une amélioration de la sécurité, cela peut poser des défis potentiels en termes de performances et de compatibilité. Évaluer les compromis entre sécurité, performance et exigences du système est essentiel pour déterminer si ce changement pose un problème significatif pour Eve.
+
+2. Le temps d'exécution de l'algorithme de chiffrement AES dépend de plusieurs facteurs, notamment la taille de la clé, le mode de chiffrement et le matériel utilisé. Dans le cas d'AES-256, le temps d'exécution dépend de la taille de la clé (256 bits), du mode de chiffrement (CBC) et du matériel utilisé (CPU, GPU, FPGA, etc.). Si on compare le chiffrement AES avec le chiffrement SDES, il est plus rapide que SDES que ce soit sur de petites clés ou de grandes clés car sa conception a été optimisée pour une large gamme de tailles de clés, et il est largement implémenté matériellement et logiciellement, ce qui lui confère des performances plus rapides même avec des clés plus grandes. SDES dans son cas, se dégradent considérablement lorsqu'il est utilisé avec des clés plus grandes, tandis que AES maintient généralement de bonnes performances même avec des clés plus grandes en raison de son approche plus moderne et de ses optimisations.
+
+Temps d'exécution de l'algorithme de chiffrement AES obtenu : 4.654099939216394e-05 s
+
+** Configuration de l'ordinateur Macbbok air M2 ** :
+  - Processeur : Apple M2 (8 cœurs, 16 threads)
+  - RAM : 8 Go
+  - GPU : Apple M2
+  - Système d'exploitation : macOS Sonoma 14.0
+
+Temps d'exécution de l'algorithme de déchiffrement AES obtenu avec la même configuration en moyenne : 2.795899945340352e-05
+
+Temps d'exécution de l'algorithme de chiffrement SDES obtenu avec la même configuration en moyenne : 0.0007921660007923492 s
+
+3. 
+### Estimation du temps de cassage d'AES-256 :
+
+- **Configuration de l'ordinateur** :
+  - Processeur : Intel Core i7-11700K (8 cœurs, 16 threads)
+  - RAM : 16 Go
+  - GPU : NVIDIA RTX 3070
+  - Système d'exploitation : Windows 10
+
+- **Complexité de l'algorithme de cassage** : Supposons une attaque par force brute exhaustive.
+- **Longueur de la clé AES** : Clé de 256 bits
+
+La clé AES-256 a une longueur de 256 bits, ce qui signifie qu'il y a \(2^{256}\) combinaisons possibles pour la clé.
+
+En supposant un taux de test de clés de l'ordre de plusieurs milliards de clés par seconde (ce qui est assez optimiste pour une attaque par force brute), calculons le temps approximatif nécessaire pour tester toutes les combinaisons possibles de clés :
+
+
+Nombre de combinaisons possibles pour la clé = 2^{256}
+
+
+Si nous testons, par exemple, 1 milliard (1 x \(10^9\)) de clés par seconde :
+
+
+Nombre de secondes nécessaires = Nombre de combinaisons possibles\Nombre de clés testées par seconde
+
+
+
+Temps nécessaire = 2^{256} / 1 * 10^9
+
+
+Calculons :
+
+
+Temps nécessaire = 2^{256} / (1 * 10^9) = 1.1579 * 10^{60} secondes
+
+
+En convertissant cela en années :
+
+
+Temps nécessaire en années :  1.1579 * 10^60 / (60 * 60 * 24 * 365) = 3.6716 * 10^49
+
+
+Cela dépasse de loin l'âge de l'univers (environ 13,8 milliards d'années).
+
+### Remarque :
+C'est une estimation simplifiée et optimiste. En réalité, une attaque par force brute contre AES-256 avec les ressources informatiques actuelles est considérée comme impossible en raison du nombre colossal de combinaisons possibles. Les estimations reposent sur des suppositions sur les capacités de calcul et peuvent varier en fonction de nombreux autres facteurs, y compris les avancées technologiques et les nouvelles méthodes d'attaque.
+
+3. 
+
 
 ## Troisième partie
 
