@@ -70,7 +70,6 @@ print("Message déchiffré avec AES :", decrypt_AES(iv, ciphertext, key))
 time_sdes = timeit.timeit(lambda: prog.double_encrypt(prog.keyGen(10)[0], prog.keyGen(10)[1], message_SDES), number=1)
 print("Temps d'exécution du double chiffrement avec SDES :", time_sdes)
 
-
 # Temps d'exécution du chiffrement et du déchiffrement avec AES
 time_aes = timeit.timeit(lambda: encrypt_AES(message_AES, key), number=1)
 print("Temps d'exécution du chiffrement avec AES :", time_aes)

@@ -119,6 +119,15 @@ C'est une estimation simplifiée et optimiste. En réalité, une attaque par for
 
 3. 
 
+**Attaques par analyse différentielle**
+L'analyse différentielle est une méthode d'attaque qui exploite les différences de comportement du chiffrement pour obtenir des informations sur la clé secrète. Cette méthode repose sur l'observation des différences dans les opérations effectuées par l'algorithme de chiffrement lorsqu'il traite des données similaires avec des clés légèrement différentes.
+
+*Explication succinte*
+L'analyse différentielle compare les différences dans les sorties produites par l'algorithme de chiffrement lorsqu'il traite des blocs de données similaires (par exemple, des bits modifiés d'un bloc de texte chiffré) avec des clés légèrement différentes. En observant ces différences, un attaquant peut extraire des informations sur la clé utilisée dans le processus de chiffrement.
+
+Cette méthode d'attaque nécessite une connaissance approfondie de l'algorithme de chiffrement et peut être complexe à mettre en œuvre. Les concepteurs d'algorithmes cryptographiques modernes prennent souvent des mesures pour résister à ce type d'attaque en rendant leurs schémas de chiffrement résistants à l'analyse différentielle.
+
+
 
 ## Troisième partie
 
