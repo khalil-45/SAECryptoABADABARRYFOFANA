@@ -93,6 +93,11 @@ print(f"AES took {end - start} seconds.")
 ## Troisième partie
 
 ## Quatrième partie
+1. Ce n'est clairement pas une bonne pratique. AES est un algorithme de chiffrement symétrique, ce qui signifie que la même clé est utilisée pour le chiffrement et le déchiffrement. Si la clé est compromise, l'attaquant peut déchiffrer toutes les données chiffrées avec cette clé. 
+Afin de respecter la bonne pratique, les deux personnes pratiquant l'AES se doivent de changer régulièrement de clé, pour garder une sécurité élevée. De plus, il est préférable d'utiliser des clés fortes.
+Pour une sécurité optimale, ces bonnes pratiques sont nécessaire pour réduire l'impact si une clé venait à être compromise.
+
+2. 
 
 ## Conclusion
 
