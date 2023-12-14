@@ -99,6 +99,10 @@ Pour une sécurité optimale, ces bonnes pratiques sont nécessaire pour réduir
 
 2. 
 
+3. 
+
+4. Plusieurs réseaux sociaux utilisent le chiffrement de bout en bout, notamment Google RCS, WhatsApp et Telegram.
+
 ## Conclusion
 
 
