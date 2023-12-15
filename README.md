@@ -101,7 +101,33 @@ Pour une sécurité optimale, ces bonnes pratiques sont nécessaire pour réduir
 
 3. 
 
-4. Plusieurs réseaux sociaux utilisent le chiffrement de bout en bout, notamment Google RCS, WhatsApp et Telegram.
+4. Plusieurs réseaux sociaux utilisent le chiffrement de bout en bout, notamment WhatsApp et Telegram. WhatsApp utilise le protocole Signal. Ce dernier utilise des clés Diffie-Hellman pour échanger secrètement des clés de session, qui sont utilisées pour chiffrer les communications audio, vidéo et par message. Les clés de session sont générées de manière dynamique pour chaque session de communication, ce qui renforce la sécurité. Le protocole utilise des clés publiques, une master_secret clé pour maintenir une session sécurisée, et des clés de session pour chaque message. Ces clés sont générées à partir d'une combinaison de la courbe elliptique Diffe-Hellman et du protocole HMAC-SHA256. Les clés de session sont constamment mises à jour pour renforcer la sécurité.
+ L'échange de clés Diffie-Hellman permet à deux parties de créer une clé commune secrète, même lorsqu'elles communiquent sur un canal non sécurisé. Voici un résumé simple :
+
+Choix des paramètres : Les parties conviennent de paramètres publics, un nombre premier 
+�
+p et un générateur 
+�
+g.
+
+Clés privées : Chaque partie choisit une clé privée secrète (
+�
+a pour la première partie, 
+�
+b pour la deuxième).
+
+Clés publiques : Chaque partie calcule une clé publique en utilisant les paramètres et sa clé privée.
+
+Échange des clés publiques : Les parties s'échangent leurs clés publiques.
+
+Clé partagée : Chaque partie calcule la clé partagée en utilisant sa clé privée et la clé publique de l'autre partie.
+
+Résultat : Les deux parties ont désormais une clé partagée commune sans jamais avoir échangé leurs clés privées directement. Cette clé partagée peut être utilisée pour sécuriser la communication entre les parties.
+
+
+
+
+
 
 ## Conclusion
 
