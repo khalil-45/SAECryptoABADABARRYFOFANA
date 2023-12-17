@@ -8,6 +8,15 @@ import timeit
 
 
 def encrypt_AES(message,key):
+    """ Fonction qui permet de chiffrer un message avec AES-256 en mode CBC 
+
+    Args:
+        message (str): Message à chiffrer
+        key (bytes): Clé de session
+
+    Returns:
+        tuple: Vecteur d'initialisation et message chiffré
+    """    
     iv = os.urandom(16)  # Pour AES, le vecteur d'initialisation a une taille de 16 octets (128 bits)
     
     # Création d'un objet AES avec mode CBC et le vecteur d'initialisation
@@ -26,6 +35,16 @@ def encrypt_AES(message,key):
     return iv, ciphertext
 
 def decrypt_AES(vecteur, message_chiffre, key):
+    """ Fonction qui permet de déchiffrer un message chiffré avec AES-256 en mode CBC
+
+    Args:
+        vecteur (str): Vecteur d'initialisation
+        message_chiffre (bytes): Message chiffré
+        key (bytes): Clé de session
+
+    Returns:
+        bytes: Message déchiffré
+    """    
     # Création d'un objet AES avec mode CBC et le vecteur d'initialisation
     cipher = Cipher(algorithms.AES(key), modes.CBC(vecteur), backend=default_backend())
     

@@ -66,14 +66,14 @@ Temps d'exécution de l'algorithme de chiffrement AES obtenu : 4.654099939216394
   - GPU : Apple M2
   - Système d'exploitation : macOS Sonoma 14.0
 
-Temps d'exécution de l'algorithme de déchiffrement AES obtenu avec la même configuration en moyenne : 2.795899945340352e-05
+Temps d'exécution de l'algorithme de déchiffrement AES obtenu avec la même configuration en moyenne : 2.795899945340352e-05 s
 
 Temps d'exécution de l'algorithme de chiffrement SDES obtenu avec la même configuration en moyenne : 0.0007921660007923492 s
 
-3. 
+
 ### Estimation du temps de cassage d'AES-256 :
 
-- **Configuration de l'ordinateur** :
+- **Configuration de l'ordinateur sur lequel ont été effectuées les tests** :
   - Processeur : Intel Core i7-11700K (8 cœurs, 16 threads)
   - RAM : 16 Go
   - GPU : NVIDIA RTX 3070
@@ -114,24 +114,40 @@ Temps nécessaire en années :  1.1579 * 10^60 / (60 * 60 * 24 * 365) = 3.6716 *
 
 Cela dépasse de loin l'âge de l'univers (environ 13,8 milliards d'années).
 
-### Remarque :
+**Remarques** :  
 C'est une estimation simplifiée et optimiste. En réalité, une attaque par force brute contre AES-256 avec les ressources informatiques actuelles est considérée comme impossible en raison du nombre colossal de combinaisons possibles. Les estimations reposent sur des suppositions sur les capacités de calcul et peuvent varier en fonction de nombreux autres facteurs, y compris les avancées technologiques et les nouvelles méthodes d'attaque.
 
-3. 
 
-**Attaques par analyse différentielle**
+
+**Attaques par analyse différentielle**  
+
 L'analyse différentielle est une méthode d'attaque qui exploite les différences de comportement du chiffrement pour obtenir des informations sur la clé secrète. Cette méthode repose sur l'observation des différences dans les opérations effectuées par l'algorithme de chiffrement lorsqu'il traite des données similaires avec des clés légèrement différentes.
 
-*Explication succinte*
+Explication succinte :  
+
 L'analyse différentielle compare les différences dans les sorties produites par l'algorithme de chiffrement lorsqu'il traite des blocs de données similaires (par exemple, des bits modifiés d'un bloc de texte chiffré) avec des clés légèrement différentes. En observant ces différences, un attaquant peut extraire des informations sur la clé utilisée dans le processus de chiffrement.
 
 Cette méthode d'attaque nécessite une connaissance approfondie de l'algorithme de chiffrement et peut être complexe à mettre en œuvre. Les concepteurs d'algorithmes cryptographiques modernes prennent souvent des mesures pour résister à ce type d'attaque en rendant leurs schémas de chiffrement résistants à l'analyse différentielle.
 
+**Analyse des Images identiques**
+
+Pour la partie analyse des images, il a fallu récupérer les images qui sont sur CELENE et les analyser bits par bits. La partie de la clé qui nous intéressait était sur 64 bits alors dans la fonction de comparaison, nous avons pris les 64 premiers pixels de chaque image et nous les avons comparés. Si les 64 premiers bits étaient identiques, alors nous avons considéré que les images étaient identiques. Ceci relevait de notre logique, cependant d'un point de vue algorithmique à la fin ce n'était pas les bons bits qui nous étaient renvoyés. Après réflexion et tests, nous avons remarqué qu'il fallait en fait ne parcourir que la deuxième image (rossignol2.bmp) car c'est elle qui contient les 64 bits qui nous intéressent. Nous avons donc modifié notre fonction de comparaison pour qu'elle ne prenne en compte que la deuxième image et à chaque fois que l'on récupérait un pixel, on ajoutait le bit de poids faible à la clé extraite en le transformant en string. Ainsi, nous avons pu extraire la partie de la clé qui nous intéressait. 
 
 
-## Troisième partie
+## Troisième partie  
+
+**Analyse de la trace réseau/messages échangés entre Alice et Bob**  
+
+Une fois qu'on ait obtenu une partie de la clé, pour obtenir le reste de la clé, il suffit de répéter 4 fois la partie de la clé que l'on a obtenu. Ensuite, il faut récupérer les messages échangés entre Alice et Bob. Pour cela, nous avons utilisé le logiciel Wireshark. Nous avons donc ouvert la trace réseau et nous avons filtré les paquets en fonction du protocole UDP et du port 9999. Ensuite, nous avons récupéré les données des paquets et nous avons pu voir que les messages étaient chiffrés avec AES-256. Nous avons donc utilisé la bibliothèque cryptography pour déchiffrer les messages. Pour faire tout cela, nous avons utilisé deux fonctions : extractey_key et decrypt_message. La première fonction permet d'extraire la clé de la trace réseau donc de lire un fichier de paquets et d'extraire les messages chiffrés et la deuxième qui permet de déchiffrer un message chiffré avec AES-256 en mode CBC. Une fois ces deux fonctions réalisées il a fallu passer par plusieurs transformations :  
+  - On a d'abord transformé la clé de session en entier
+  - Par la suite nous avons transformé cette clé en entier en binaire pour qu'elle soit en bytes parce que c'est nécessaire pour la fonction decrypt_message avec AES-256
+  - Ensuite, nous avons récupéré les messages chiffrés et nous les avons déchiffrés avec la fonction decrypt_message
+
+
 
 ## Quatrième partie
+
+## Répartition des tâches
 
 ## Conclusion
 
