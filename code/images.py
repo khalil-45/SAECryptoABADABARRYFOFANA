@@ -16,7 +16,7 @@ def extract_key(img_with_key):
 
     # Extraire la clé cachée dans l'image
     extracted_key = ""
-    for x in range(64): 
+    for x in range(64): # Parcourir les 64 premiers pixels de l'image
             pixel2 = with_key.getpixel((x, 0)) # Récupérer le pixel de l'image
             extracted_key+= str(pixel2%2)  # Ajouter le bit de poids faible du pixel à la clé extraite  
     return extracted_key             
