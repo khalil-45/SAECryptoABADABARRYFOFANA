@@ -149,11 +149,12 @@ Une fois qu'on ait obtenu une partie de la clé, pour obtenir le reste de la cl�
 
 ## Quatrième partie
 
-## Répartition des tâches
+## Répartition des tâches  
+
 Ibrahima :  
 
 J'ai tout d'abord commencé à faire la partie 1 du projet. Après avoir analysé les questions qui étaient proposées, j'ai tenté d'apporter des premiers éléments de réponses puis mes deux autres camarades ont à leur tour apporté leurs réponses. Après ça, j'ai réalisé les fonctions qui nous étaient demandées, j'ai d'abord codé le cassage brutal puis Khalil a retravaillé dessus. Après ça je me suis penché sur le cassage astucieux qui dans un premier temps puis Abdoulahi a complété cette fonction et a réussi à réduire le temps d'exécution. Au final nous avons tous contribué à cette partie.
-Par la suite j'ai poursuivi avec al partie 2 que j'ai entièrement réalisé.
+Par la suite j'ai poursuivi avec la partie 2 que j'ai entièrement réalisé.
 
 
 
