@@ -13,6 +13,7 @@
 
 from time import time
 #pylint: disable=C0103,R1705
+ 
 KeyLength = 10
 SubKeyLength = 8
 DataLength = 8
@@ -332,10 +333,12 @@ def cassage_brutal(message_clair, message_chiffre):
     for i in range(256):
         for j in range(256):
             decrypted_message = ''
+            # Déchiffrement par bloc de 8 bits de tout le texte
             for k in range(0, len(message_chiffre_bits), 8):
                 block = int(message_chiffre_bits[k:k + 8], 2)
                 decrypted_block = decrypt(i, decrypt(j, block))
                 decrypted_message += format(decrypted_block, '08b')
+            # Si le message déchiffré est égal au message clair
             if bits_to_text(decrypted_message) == message_clair:
                 print("Temps d'exécution : ", time() - debut)
                 return (i, j)
