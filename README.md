@@ -21,7 +21,6 @@
   <a href="#troisième-partie">La Troisième Partie</a> •
   <a href="#quatrième-partie"> La Quatrième Partie</a> •
   <a href="#répartition-des-tâches"> La Répartition des Tâches</a> •
-  <a href="#conclusion">Conclusion</a> •
   <a href="#license">License</a>
 </p>
 
@@ -230,12 +229,6 @@ Khalil :  Premièrement, j'ai commencé par prendre conscience des différentes 
 
 
 Abdoulahi :  
-
-
-
-
-## Conclusion
-
 
 
 ## Credits
