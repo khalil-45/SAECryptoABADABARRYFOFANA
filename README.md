@@ -148,7 +148,73 @@ Une fois qu'on ait obtenu une partie de la clé, pour obtenir le reste de la cl�
 
 
 ## Quatrième partie
+1. Alice et Bob utilisent toujours la même clé. Est-ce une bonne pratique?
 
+Ce n'est clairement pas une bonne pratique. AES est un algorithme de chiffrement symétrique, ce qui signifie que la même clé est utilisée pour le chiffrement et le déchiffrement. Si la clé est compromise, l'attaquant peut déchiffrer toutes les données chiffrées avec cette clé. 
+Afin de respecter la bonne pratique, les deux personnes pratiquant l'AES se doivent de changer régulièrement de clé, pour garder une sécurité élevée. De plus, il est préférable d'utiliser des clés fortes.
+Pour une sécurité optimale, ces bonnes pratiques sont nécessaire pour réduire l'impact si une clé venait à être compromise.
+
+2. Le protocole PlutotBonneConfidentialité est inspiré d’un vrai protocole réseau. Lequel? Décrivez la partie
+associé à la certification des clés qui est absente de PlutotBonneConfidentialité
+
+Le réseau auquel le protocole PlutotBonneConfidentialité est inspiré est le protocole TLS (Transport Layer Security). Ce dernier est couramment utilisé dans la sécurisation des communications sur le web.
+
+Ce dernier est un protocole de sécurité qui assure la confidentialité et l'intégrité des données lors de leur transmission sur un réseau, généralement avec TCP. Il est très utilisé pour établir des connexions sécurisées sur Internet, par exemple avec les transactions bancaires, l'accès sécurisé aux courriers électroniques, et d'autres échanges possédant des données sensibles. TLS utilise un processus de certification de clés pour authentifier les deux communiquants et établit des clés de session secrètes pour chiffrer les données pendant la transmission.
+
+Dans TLS, le processus de certification des clés se déroule comme suit :
+
+D'abord, le serveur envoie un certificat numérique signé à son client.
+Ensuite, le client vérifie la validité du certificat en utilisant la clé publique de l'autorité de certification associée.
+Si la vérification réussit, le client et le serveur génèrent des clés de session partagées.
+Enfin, ces clés de session sont utilisées pour chiffrer la communication entre le client et le serveur.
+
+3. Il n’y a pas que pour l’échange de mots doux q’un tel protocole peut se révéler utile. . . Donnez au moins deux
+autres exemples de contexte où cela peut se révéler utile.
+
+- Communications par Courrier Électronique (SMTP/IMAP/POP):
+
+TLS est souvent utilisé pour sécuriser les communications par courrier électronique. Lorsque les serveurs de messagerie et les clients de messagerie prennent en charge TLS, il est possible d'établir des connexions sécurisées pour protéger le contenu des courriels contre une interception non autorisée, par exemple d'un message.
+
+- Accès à des Applications Web (HTTPS):
+
+TLS est le plus souvent utilisé dans le contexte du protocole HTTPS. Lorsque vous accédez à des sites Web via HTTPS, le protocole TLS est utilisé pour crypter les données entre votre navigateur et le serveur Web, ce qui garantit la confidentialité des informations sensibles telles que les noms d'utilisateur, les mots de passe, et les données bancaires.
+
+4. Connaissez-vous des applications de messagerie utilisant des mécanismes de chiffrement similaires? (on parle
+parfois de chiffrement de bout en bout)? Citez-en au moins deux et décrivez brièvement les mécanismes
+cryptographiques sous-jacent
+
+Plusieurs réseaux sociaux utilisent le chiffrement de bout en bout, notamment *WhatsApp* et *Telegram*. *WhatsApp* utilise le protocole Signal. Ce dernier utilise des clés Diffie-Hellman pour échanger secrètement des clés de session, qui sont utilisées pour chiffrer les communications audio, vidéo et par message. Les clés de session sont générées de manière dynamique pour chaque session de communication, ce qui renforce la sécurité. Le protocole utilise des clés publiques, une master_secret clé pour maintenir une session sécurisée, et des clés de session pour chaque message. Ces clés sont générées à partir d'une combinaison de la courbe elliptique Diffe-Hellman et du protocole HMAC-SHA256. Les clés de session sont constamment mises à jour pour renforcer la sécurité.
+L'échange de clés Diffie-Hellman permet à deux parties de créer une clé commune secrète, même lorsqu'elles communiquent sur un canal non sécurisé. Voici un résumé simple :
+
+**Choix des paramètres** : Les parties conviennent de paramètres publics, un nombre premier p et un générateur g.
+
+**Clés privées** : Chaque partie choisit une clé privée secrète (a pour la première partie, b pour la deuxième).
+
+**Clés publiques** : Chaque partie calcule une clé publique en utilisant les paramètres et sa clé privée.
+
+**Échange des clés publiques** : Les parties s'échangent leurs clés publiques.
+
+**Clé partagée** : Chaque partie calcule la clé partagée en utilisant sa clé privée et la clé publique de l'autre partie.
+
+**Résultat** : Les deux parties ont désormais une clé partagée commune sans jamais avoir échangé leurs clés privées directement. Cette clé partagée peut être utilisée pour sécuriser la communication entre les parties.
+
+5. Récemment, différents projets de loi et règlements (CSAR, EARN IT Act) visent à inciter voir obliger les
+fournisseurs de services numériques à pouvoir déchiffrer (et donc analyser) les communications de leur.e.s
+utilisateur.rices. Discutez des arguments en faveur ou contre ces législations, notamment en matière de vie
+privée
+
+Alors comme nous pouvons nous en douter, il y a plus d'arguments contre ces projets de loi que l'inverse. En effet, les personnes s'affolent directement lorsqu'ils apprennent que leurs messages peuvent être lus par leur fournisseur. Cependant, ce n'est pas pour autant que ces mesures soient totalement négatif. Voici les différents arguments en faveur : 
+- Une sécurité sur le territoire : On y pense pas directement, mais la possibilité de lire les messages chiffrés permet d'attraper toutes les activités terroristes, criminalités organisées et toutes autres menaces à la sécurité nationale.
+
+- Protection des victimes : Toutes les activités illicites telles que la pédopornographie ou bien l'harcèlement, seraient un trésor pour condamner les auteurs de ces actes ignobles, et ainsi aider les victimes qui subissent ces derniers.
+
+- Responsabilité des plateformes : En donnant une plus grande responsabilité aux plateformes dans la modération, cela aidera à lutter contre les abus en ligne, par exemple les partisans de l'EARN IT Act soutiennent cette idée.
+
+Voici les arguments contre ces projets de lois : 
+- Droit à la vie privée : En effet, un accès forcé aux messages des civils peut être perçu comme une violation du droit fondamental à la vie privée. Les individus possèdent un droit d'échanger de manière confidentielle sans craindre une surveillance excessive de l'État.
+- Risque de surveillance de masse : Si on accepte ces projets de lois, cela voudrait dire que les plateformes auront la capacité de surveiller même des personnes qui ne sont pas soupçonnées de comportements criminels, c'est-à-dire une surveillance abusive.
+- Faiblesse de la sécurité des échanges : La création de "backdoors" - portes dérobées - pour permettre l'accès aux communications pourrait rendre les systèmes plus vulnérables aux pirates et aux hackers qui pourraient exploiter ces faiblesses pour accéder à des informations sensibles, présents dans les messages chiffrés.
+- Inefficacité des projets de lois : En réflechissant un peu plus, on remarque une chose : en ordonnant au plateformes de fournir un moyen de déchiffrer les communications, les criminels auront juste à choisir d'autres moyens de communications hors des plateformes réglementées. Plusieurs experts affirment cet argument.
 ## Répartition des tâches  
 
 Ibrahima :  
@@ -158,7 +224,7 @@ Par la suite j'ai poursuivi avec la partie 2 que j'ai entièrement réalisé.
 
 
 
-Khalil :  
+Khalil :  Premièrement, j'ai commencé par prendre conscience des différentes attentes de ce projet attribué par M. GILLET, notre employeur. Au départ, cela m'a paru presque impossible, mais finalement je retiens une chose : ne jamais se fier aux apparences. J'ai commencé, accompagné de mes collègues, qui vous diront de même, à répondre aux différentes questions de la première partie. En effet, un projet ne commence jamais par le code mais par l'étude du projet même. Ensuite, nous avons continué sur l'implémentation des fonctions demandé, Ibrahima a commencé puis j'ai vérifié que tous aller bien pour la suite, deux cerveaux valent mieux qu'un. Ensuite, moi et Ibrahima avons persisté assez longtemps sur le cassage brutal pour avoir trouvé une petite erreur bête, mais bon c'est le comble d'un développeur ces petites erreurs bête (décidément deux cerveaux ne valent peut être pas mieux qu'un). Enfin, pour accélérer le pas, je suis passé directement à la partie 4, qui ne se lier pas trop aux autres (à part deux questions). En effet, je ne suis pas passé de la partie 1 à la partie 4 sans étudier les parties intérmédiaires, j'ai vérifié ce que mes collègues ont fait pour ainsi comprendre ces parties.
 
 
 
