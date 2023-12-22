@@ -230,6 +230,7 @@ Khalil :  Premièrement, j'ai commencé par prendre conscience des différentes 
 
 Abdoulahi :  
 
+J'ai commencé par travailler sur la partie 1 du projet en collaboration avec mon collègue Ibrahima, et avec son aide, nous avons pu créer le rendu tel qu'il est aujourd'hui. Nous avons travaillé en collaboration durant tout le projet, ce qui signifie que je n'ai pas seulement codé individuellement, mais j'ai également aidé sur leurs tâches en donnant mon avis, comme par exemple sur les questions des différentes parties, en suggérant des améliorations ou des suppressions. Ils ont fait de même pour moi. Ensuite, nous avons répondu aux questions de manière à ce que tout le monde soit d'accord avec la réponse. Enfin, j'ai mis en place une petite application à exécuter dans le terminal, qui permet de tester nos fonctions implémentées durant le projet.
 
 ## Credits
 
