@@ -1,1 +1,1 @@
-python3 code/applicrypto.py
+python3 applicrypto.py
