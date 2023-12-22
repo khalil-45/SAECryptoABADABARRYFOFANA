@@ -166,8 +166,8 @@ def afficher_options(option_dispo):
     print(Fore.RED + "Rouge : désactivé\n")
     print(Style.RESET_ALL)
     while True:
-        print("\nVeuillez choisir l'option crypter le message lorsque vous avez fini de choisir\
-              l'option pour les clés\n")
+        print("\nVeuillez choisir l'option crypter le message lorsque vous avez fini de choisir l'option pour créer les clés\n")
+        print("Par défaut, les clés sont générées manuellement\n")
         for nb, option in enumerate(option_dispo):
             if option_dispo[option] == "activé":
                 print(Fore.GREEN + str(nb + 1) + " - " + option)
