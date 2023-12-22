@@ -18,6 +18,17 @@
 
 # Explication pour lancer notre programme
 
+## Pour lancer un menu principal regroupant toutes les fonctionnalités de la partie 1
+
+Voici la commande : 
+```bash
+bash launch.sh
+
+#ou bien
+
+python3 applicrypto.py
+```
+
 ## Pour la partie 1
 
 C'est le fichier ***programme.py*** qui est lié. Voici comment le lancer :

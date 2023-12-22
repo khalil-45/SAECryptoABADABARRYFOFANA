@@ -16,7 +16,7 @@ def convert_readme_to_pdf(input_file, output_file):
         print(f"Une erreur s'est produite : {str(e)}")
 
 # Utilisation de la fonction
-convert_readme_to_pdf('README.md', 'README.pdf')
+convert_readme_to_pdf('Rapport.md', 'Rapport.pdf')
 
 
 # Commandes à installer pour les import :
